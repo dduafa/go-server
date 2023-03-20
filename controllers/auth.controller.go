@@ -4,10 +4,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/dduafa/go-server/core/utils"
 	"github.com/dduafa/go-server/models"
-	"github.com/dduafa/go-server/responses"
 	"github.com/dduafa/go-server/services"
-	"github.com/dduafa/go-server/utils"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -25,18 +24,18 @@ func (authC *authController) UserSignUp(c *fiber.Ctx) error {
 	var payload *models.SignUpInput
 
 	if err := c.BodyParser(&payload); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(responses.CommonResponse{Status: fiber.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": err}})
+		return c.Status(fiber.StatusBadRequest).JSON(utils.CommonResponse{Status: fiber.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": err}})
 	}
 
 	user, err := authC.services.Users.FindUserByEmail(payload.Email)
 
 	if err == nil {
-		return c.Status(fiber.StatusBadRequest).JSON(responses.CommonResponse{Status: fiber.StatusBadRequest, Message: "User already exists", Data: &fiber.Map{"data": err.Error()}})
+		return c.Status(fiber.StatusBadRequest).JSON(utils.CommonResponse{Status: fiber.StatusBadRequest, Message: "User already exists", Data: &fiber.Map{"data": err.Error()}})
 	}
 
 	hashedPassword, err := utils.HashPassword(payload.Password)
 	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(responses.CommonResponse{Status: fiber.StatusBadRequest, Message: "Password Error", Data: &fiber.Map{"data": err.Error()}})
+		return c.Status(fiber.StatusBadRequest).JSON(utils.CommonResponse{Status: fiber.StatusBadRequest, Message: "Password Error", Data: &fiber.Map{"data": err.Error()}})
 	}
 
 	now := time.Now()
@@ -53,16 +52,16 @@ func (authC *authController) UserSignUp(c *fiber.Ctx) error {
 	}
 
 	if err := authC.services.Users.CreateUser(&newUser); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(responses.CommonResponse{Status: fiber.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": err.Error()}})
+		return c.Status(fiber.StatusBadRequest).JSON(utils.CommonResponse{Status: fiber.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": err.Error()}})
 	}
 
 	if err != nil && strings.Contains(err.Error(), "duplicate key value violates unique") {
-		return c.Status(fiber.StatusBadRequest).JSON(responses.CommonResponse{Status: fiber.StatusBadRequest, Message: "User with that email already exists", Data: &fiber.Map{"data": err.Error()}})
+		return c.Status(fiber.StatusBadRequest).JSON(utils.CommonResponse{Status: fiber.StatusBadRequest, Message: "User with that email already exists", Data: &fiber.Map{"data": err.Error()}})
 	} else if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(responses.CommonResponse{Status: fiber.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": err.Error()}})
+		return c.Status(fiber.StatusBadRequest).JSON(utils.CommonResponse{Status: fiber.StatusBadRequest, Message: "error", Data: &fiber.Map{"data": err.Error()}})
 	}
 
-	return c.Status(fiber.StatusOK).JSON(responses.CommonResponse{Status: fiber.StatusOK, Message: "success", Data: &fiber.Map{"data": user}})
+	return c.Status(fiber.StatusOK).JSON(utils.CommonResponse{Status: fiber.StatusOK, Message: "success", Data: &fiber.Map{"data": user}})
 }
 
 // func (ac *AuthController) SignInUser(ctx *gin.Context) {

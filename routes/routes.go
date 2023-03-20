@@ -1,9 +1,8 @@
 package routes
 
 import (
-
 	"github.com/dduafa/go-server/core"
-	"github.com/dduafa/go-server/responses"
+	"github.com/dduafa/go-server/core/utils"
 	"github.com/dduafa/go-server/services"
 	"github.com/gofiber/fiber/v2"
 )
@@ -24,7 +23,7 @@ func NewRouter(app *fiber.App, config *core.Config, services services.Services) 
 
 func (r *router) RegisterRoutes() {
 	r.app.Get("/status", func(c *fiber.Ctx) error {
-		return c.Status(fiber.StatusOK).JSON(responses.CommonResponse{Status: fiber.StatusOK, Message: "Hi, ✋ Server is Okay!!!"})
+		return c.Status(fiber.StatusOK).JSON(utils.CommonResponse{Status: fiber.StatusOK, Message: "Hi, ✋ Server is Okay!!!"})
 	})
 
 	AuthRoutes(r.app, r.services)
