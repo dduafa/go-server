@@ -1,0 +1,12 @@
+services:
+  go-svr-db:
+    image: postgres
+    container_name: go-svr-db
+    ports:
+      - 6500:5432
+    env_file:
+      - ./.env
+    volumes:
+      - postgres:/var/lib/postgresql/data # prevent data loss when deleting the Postgres container
+volumes:
+  postgres:
