@@ -1,41 +1,54 @@
-go mod init github.com/dduafa/go-server
+# Go REST API with PostgreSQL using Docker Compose, GORM, and Fiber
 
-Make a copy of .env.example
+This is a simple REST API boilerplate built with Go language using GORM and Fiber. It uses PostgreSQL as the database.
 
-- Start postgres container
- ```docker-compose up -d --remove-orphans```
+## Prerequisites
 
-- Stop postgres container
- ```docker-compose down```
+- Go programming language installed on your machine
+- Docker and Docker Compose installed on your machine
+- Nodemon (NPM package) installed on your machine
 
-- Access docker bash
-```docker exec -it postgres bash```
+## Getting Started
 
-<!-- Connect to docker postgre and check extensions -->
-psql -U postgres golang-gorm
-select * from pg_available_extensions;
+1. Clone this repository onto your local machine.
 
-<!-- Install this extention (because we are using uuid_generate_v4() for or model IDs) -->
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+```
+    git clone https://github.com/dduafa/go-server.git
+```
 
+2. Navigate to the project directory.
+   `cd go-server`
 
-<!-- Used to load and validate env variables -->
-go get github.com/spf13/viper
+3. Create an `.env` file with the sample in `.env.example`
 
-<!-- cors -->
-go get github.com/gin-contrib/cors
+4. Build and run the Docker containers for the PostgreSQL database.
+   `docker-compose up -d --remove-orphans`
 
-<!-- GORM library and the Postgres driver -->
-go get -u gorm.io/gorm  
-go get gorm.io/driver/postgres
+5. `psql -U postgres db_name`
 
-<!-- Run migration -->
-go run migrate/migrate.go
+6. Check extensions intalled on the postgres database.
+   `select * from pg_available_extensions;`
 
-<!-- jwt -->
-github.com/golang-jwt/jwt
+7. Run the SQL command to install `uuid-oosp` to enable us use `uuid_generate_v4()` to generate model IDs
+   `CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`
 
+8. Start the server.
+   `nodemon`
 
-<!-- Create server with Gin  -->
-go get github.com/gin-gonic/gin 
-go install github.com/cosmtrek/air@latest -->> will help us to hot-reload the Gin server
+9. You should now be able to access the API via `http://localhost:${SERVER_PORT}`.
+
+## Sample Scripts
+
+- `"docker-compose up -d --remove-orphans"` - Start postgres container.
+- `"docker-compose down"` - Stop postgres container.
+- `"docker exec -it postgres bash"` - Access docker bash.
+- `"psql -U postgres db_name"` - Access postgre database.
+
+## Built With
+
+- [Go](https://golang.org/) - Programming language
+- [GORM](https://gorm.io/) - Object-relational mapping (ORM) library
+- [Fiber](https://gofiber.io/) - Web framework
+- [Nodemon](https://nodemon.io/) - Automatic restarting of application
+- [Docker](https://www.docker.com/) - Containerization platform
+- [Docker Compose](https://docs.docker.com/compose/) - Tool for defining and running multi-container Docker applications
