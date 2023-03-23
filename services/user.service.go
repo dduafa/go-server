@@ -4,6 +4,7 @@ import (
 	"github.com/dduafa/go-server/core"
 	"github.com/dduafa/go-server/models"
 	"github.com/dduafa/go-server/repositories"
+	"github.com/google/uuid"
 )
 
 type userService struct {
@@ -18,11 +19,26 @@ func newUserService(r repositories.Repo, c *core.Config) *userService {
 	}
 }
 
-func (s *userService) CreateUser(payload *models.User) error {
-	return s.repository.Users.Create(payload)
-
+func (s *userService) CreateUser(user *models.User) error {
+	return s.repository.Users.Create(user)
 }
 
-func (c *userService) FindUserByEmail(email string) (*models.User, error) {
-	return c.repository.Users.FindUserByEmail(email)
+func (s *userService) FindUserByEmail(email string) (*models.User, error) {
+	return s.repository.Users.FindUserByEmail(email)
+}
+
+func (s *userService) FindAllUsers() ([]models.User, error) {
+	return s.repository.Users.FindAll()
+}
+
+func (s *userService) FindUserByID(id uuid.UUID) (models.User, error) {
+	return s.repository.Users.FindByID(id)
+}
+
+func (s *userService) UpdateUser(user *models.User) error {
+	return s.repository.Users.Update(user)
+}
+
+func (s *userService) DeleteUserById(id uuid.UUID) error {
+	return s.repository.Users.Delete(id)
 }
