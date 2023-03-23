@@ -1,4 +1,4 @@
-# Go REST API with PostgreSQL using Docker Compose, GORM, and Fiber
+# Go REST API
 
 This is a simple REST API boilerplate built with Go language using GORM and Fiber. It uses PostgreSQL as the database.
 
@@ -12,30 +12,31 @@ This is a simple REST API boilerplate built with Go language using GORM and Fibe
 
 1. Clone this repository onto your local machine.
 
-```
-    git clone https://github.com/dduafa/go-server.git
-```
+   ```
+   git clone https://github.com/dduafa/go-server.git
+   ```
 
 2. Navigate to the project directory.
-   `cd go-server`
+
+   ```
+   cd go-server
+   ```
 
 3. Create an `.env` file with the sample in `.env.example`
 
-4. Build and run the Docker containers for the PostgreSQL database.
-   `docker-compose up -d --remove-orphans`
+4. Build and run the Docker container for the PostgreSQL database.
 
-5. `psql -U postgres db_name`
+   ```
+   docker-compose up -d --remove-orphans
+   ```
 
-6. Check extensions intalled on the postgres database.
-   `select * from pg_available_extensions;`
+5. Start the server.
 
-7. Run the SQL command to install `uuid-oosp` to enable us use `uuid_generate_v4()` to generate model IDs
-   `CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`
+   ```
+   nodemon
+   ```
 
-8. Start the server.
-   `nodemon`
-
-9. You should now be able to access the API via `http://localhost:${SERVER_PORT}`.
+6. You should now be able to access the API via `http://localhost:${SERVER_PORT}`.
 
 ## Sample Scripts
 
@@ -52,3 +53,7 @@ This is a simple REST API boilerplate built with Go language using GORM and Fibe
 - [Nodemon](https://nodemon.io/) - Automatic restarting of application
 - [Docker](https://www.docker.com/) - Containerization platform
 - [Docker Compose](https://docs.docker.com/compose/) - Tool for defining and running multi-container Docker applications
+
+## To Do
+- [ ] Fix nodemon not reflecting new changes
+- [ ] Fix registration process failing on duplicate
