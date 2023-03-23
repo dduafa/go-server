@@ -27,4 +27,5 @@ func (r *router) RegisterRoutes() {
 	})
 
 	AuthRoutes(r.app, r.services)
+	UserRoutes(r.app, r.services)
 }
