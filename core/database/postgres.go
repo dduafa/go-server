@@ -29,3 +29,8 @@ func NewDBInstance(cfg *core.Config) (*gorm.DB, error) {
 	fmt.Println("? Connected Successfully to the Database")
 	return dbInstance, nil
 }
+
+func RunMigrations(db *gorm.DB, models ...interface{}) error {
+	err := db.AutoMigrate(models...)
+	return err
+}

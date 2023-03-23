@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/dduafa/go-server/core"
+	"github.com/dduafa/go-server/models"
 	"github.com/gofiber/fiber/v2"
 
 	"github.com/dduafa/go-server/core/database"
@@ -20,6 +21,11 @@ func main() {
 	dbInstance, err := database.NewDBInstance(config)
 	if err != nil {
 		log.Fatal("failed to initialize postgres database. err:", err)
+	}
+
+	err = database.RunMigrations(dbInstance, &models.User{})
+	if err != nil {
+		log.Fatal("failed to run migrations. err:", err)
 	}
 
 	repo := repositories.NewRepository(dbInstance)
