@@ -26,6 +26,10 @@ func (a *authController) UserSignUp(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(utils.CommonResponse{Status: fiber.StatusBadRequest, Message: "Invalid request body", Data: &fiber.Map{"data": err.Error()}})
 	}
 
+	if user, _ := a.services.Users.FindUserByEmail(payload.Email); user != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(utils.CommonResponse{Status: fiber.StatusBadRequest, Message: "User already exists", Data: &fiber.Map{"data": nil}})
+	}
+
 	hashedPassword, err := utils.HashPassword(payload.Password)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(utils.CommonResponse{Status: fiber.StatusBadRequest, Message: "Password Error", Data: &fiber.Map{"data": err.Error()}})
